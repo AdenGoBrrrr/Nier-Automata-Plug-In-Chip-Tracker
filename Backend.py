@@ -27,6 +27,14 @@ class PlugInChipNeeded(PlugInChip):
         self.chips_gotten[str(chip.level)] += 1
         print(f"Added {chip.name} to chips gotten. Current count of level"
               + f": {self.chips_gotten[str(chip.level)]}")
+        
+    def get_remaining_chips_needed(self):
+        total_level_0s = 0
+        
+        for level, count in self.chips_gotten.items():
+            total_level_0s += count * (2 ** int(level))
+
+        return 256 - total_level_0s
 
     def __str__(self):
         output = f"Plug-In Chip Needed: {self.name} (Level {self.level})\n"
@@ -38,7 +46,7 @@ class PlugInChipNeeded(PlugInChip):
             
                 total_level_0s += count * (2 ** int(level))
 
-        output += f"{256 - total_level_0s} chips\n"
+        output += f"{self.get_remaining_chips_needed()}:"
 
         return output
     
